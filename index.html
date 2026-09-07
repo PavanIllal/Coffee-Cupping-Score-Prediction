@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cupping Lab — Cup Score Predictor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="site-header">
+  <div class="wrap header-row">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="20" cy="20" r="3.4" fill="currentColor"/>
+        <path d="M20 2 L20 8 M20 32 L20 38 M2 20 L8 20 M32 20 L38 20" stroke="currentColor" stroke-width="1.4"/>
+      </svg>
+      <span>Cupping Lab</span>
+    </div>
+    <nav class="header-nav">
+      <a href="#predict">Predict</a>
+      <a href="#about">Scoring guide</a>
+      <a href="#connection">Connection</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="hero-kicker">A trained cupping model, in your browser</p>
+        <h1>Know the cup score<br>before the cup is poured.</h1>
+        <p class="hero-sub">
+          Enter a lot's origin, processing, physical grading and certification details.
+          The model — a random forest trained on thousands of SCA cupping sheets —
+          estimates the total cup points a Q-grader panel would likely award.
+        </p>
+        <div class="hero-actions">
+          <a href="#predict" class="btn btn-primary">Start a prediction</a>
+          <a href="#about" class="btn btn-ghost">How scoring works</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <svg viewBox="0 0 320 320" class="cup-illustration">
+          <ellipse cx="160" cy="272" rx="86" ry="10" class="cup-shadow"/>
+          <path d="M76 108 L96 232 Q100 254 130 254 L192 254 Q222 254 226 232 L246 108 Z" class="cup-body"/>
+          <path d="M84 118 L242 118" class="cup-rim"/>
+          <path id="brewLine" d="M90 120 L236 120 L232 148 Q161 160 90 148 Z" class="cup-liquid"/>
+          <path d="M246 130 Q284 130 284 158 Q284 186 246 184" class="cup-handle"/>
+          <g class="steam">
+            <path d="M132 96 C124 84 140 76 132 62 C126 52 138 44 134 32" class="steam-line s1"/>
+            <path d="M164 96 C156 84 172 76 164 62 C158 52 170 44 166 32" class="steam-line s2"/>
+            <path d="M196 96 C188 84 204 76 196 62 C190 52 202 44 198 32" class="steam-line s3"/>
+          </g>
+          <g class="beans">
+            <ellipse cx="52" cy="252" rx="10" ry="7" transform="rotate(-24 52 252)" class="bean"/>
+            <path d="M52 246 L52 258" class="bean-crease" transform="rotate(-24 52 252)"/>
+            <ellipse cx="272" cy="240" rx="10" ry="7" transform="rotate(18 272 240)" class="bean"/>
+            <path d="M272 234 L272 246" class="bean-crease" transform="rotate(18 272 240)"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREDICT FORM -->
+  <section class="predict-section" id="predict">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Lot data sheet</h2>
+        <p>Fill in what you know. Every field feeds the model — the more precise the entry, the sharper the estimate.</p>
+      </div>
+
+      <div class="lab-layout">
+
+        <form id="cupForm" class="lab-form" novalidate>
+
+          <fieldset class="field-group">
+            <legend>Origin &amp; lot</legend>
+            <div class="field-grid">
+              <label class="field">
+                <span>Country of origin</span>
+                <select id="Country_of_Origin" required></select>
+              </label>
+              <label class="field">
+                <span>Region</span>
+                <input type="text" id="Region" list="regionOptions" placeholder="Start typing to search…" autocomplete="off" required>
+                <datalist id="regionOptions"></datalist>
+              </label>
+              <label class="field">
+                <span>Variety</span>
+                <select id="Variety" required></select>
+              </label>
+              <label class="field">
+                <span>Number of bags</span>
+                <input type="number" id="Number_of_Bags" min="0" step="1" value="175" required>
+              </label>
+              <label class="field">
+                <span>Harvest year</span>
+                <input type="number" id="Harvest_Year" min="1990" max="2035" step="1" value="2018" required>
+              </label>
+              <label class="field">
+                <span>In-country partner</span>
+                <select id="In_Country_Partner" required></select>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field-group">
+            <legend>Processing &amp; physical grading</legend>
+            <div class="field-grid">
+              <label class="field">
+                <span>Processing method</span>
+                <select id="Processing_Method" required></select>
+              </label>
+              <label class="field">
+                <span>Bean color</span>
+                <select id="Color" required></select>
+              </label>
+              <label class="field">
+                <span>Moisture (%)</span>
+                <input type="number" id="Moisture" min="0" max="30" step="0.1" value="11.2" required>
+              </label>
+              <label class="field">
+                <span>Category 1 defects (full)</span>
+                <input type="number" id="Category_One_Defects" min="0" step="1" value="0" required>
+              </label>
+              <label class="field">
+                <span>Category 2 defects (secondary)</span>
+                <input type="number" id="Category_Two_Defects" min="0" step="1" value="3" required>
+              </label>
+              <label class="field">
+                <span>Quakers</span>
+                <input type="number" id="Quakers" min="0" step="1" value="0" required>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field-group">
+            <legend>Certification &amp; altitude</legend>
+            <div class="field-grid">
+              <label class="field">
+                <span>Certification body</span>
+                <select id="Certification_Body" required></select>
+              </label>
+              <label class="field">
+                <span>Altitude unit</span>
+                <select id="unit_of_measurement" required></select>
+              </label>
+              <label class="field">
+                <span>Altitude, mean (m)</span>
+                <input type="number" id="altitude_mean_meters" min="0" step="1" value="1650" required>
+              </label>
+              <label class="field">
+                <span>Altitude, range (m)</span>
+                <input type="number" id="altitude_range" min="0" step="1" value="200" required>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="form-footer">
+            <button type="button" id="fillSample" class="btn btn-ghost btn-small">Load a sample lot</button>
+            <button type="submit" class="btn btn-primary" id="submitBtn">
+              <span>Predict cup score</span>
+            </button>
+          </div>
+
+          <p class="form-error" id="formError" role="alert" hidden></p>
+        </form>
+
+        <aside class="result-panel" id="resultPanel">
+          <div class="result-idle" id="resultIdle">
+            <svg viewBox="0 0 220 130" class="gauge-preview">
+              <path d="M14 116 A96 96 0 0 1 206 116" class="gauge-track"/>
+            </svg>
+            <p>Your predicted total cup points will appear here.</p>
+          </div>
+
+          <div class="result-live" id="resultLive" hidden>
+            <svg viewBox="0 0 220 140" class="gauge">
+              <path d="M14 116 A96 96 0 0 1 206 116" class="gauge-track"/>
+              <path d="M14 116 A96 96 0 0 1 206 116" class="gauge-fill" id="gaugeFill"/>
+              <line x1="110" y1="116" x2="110" y2="36" class="gauge-needle" id="gaugeNeedle"/>
+              <circle cx="110" cy="116" r="5.5" class="gauge-pivot"/>
+            </svg>
+            <div class="score-readout">
+              <span class="score-number" id="scoreNumber">0.0</span>
+              <span class="score-unit">/ 100 pts</span>
+            </div>
+            <p class="score-band" id="scoreBand">—</p>
+            <div class="score-scale">
+              <span>70</span><span>80</span><span>85</span><span>90</span><span>100</span>
+            </div>
+          </div>
+
+          <div class="result-loading" id="resultLoading" hidden>
+            <div class="spinner"></div>
+            <p>Cupping in progress…</p>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT / INFO -->
+  <section class="about-section" id="about">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>How a cup gets its score</h2>
+        <p>A short primer on the numbers behind the form, drawn from the SCA (Specialty Coffee Association) cupping protocol this dataset follows.</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <span class="about-index">Total cup points</span>
+          <p>Q-graders score ten sensory categories — fragrance/aroma, flavor, aftertaste, acidity, body, balance, uniformity, clean cup, sweetness and overall — each out of 10, then sum them. 100 is a perfect, and effectively theoretical, score.</p>
+        </div>
+        <div class="about-card">
+          <span class="about-index">Specialty threshold</span>
+          <p>80.00 is the line between "specialty" and commercial-grade coffee. Below it, the lot is graded on a separate commercial scale rather than a cupping sheet.</p>
+        </div>
+        <div class="about-card">
+          <span class="about-index">Defects</span>
+          <p>Category 1 defects (full black, full sour, pod, fungus damage) are graded out of the whole sample; a single one can be disqualifying. Category 2 defects (partial black, partial sour, broken, insect damage) are tolerated in small counts.</p>
+        </div>
+        <div class="about-card">
+          <span class="about-index">Quakers</span>
+          <p>Under-ripe cherries that don't roast properly — they stay pale and taste papery. Counted per 350g sample; more quakers usually track with a lower flavor and sweetness score.</p>
+        </div>
+        <div class="about-card">
+          <span class="about-index">Moisture</span>
+          <p>Green coffee is typically cupped between 9–13% moisture. Outside that band, beans risk tasting flat (too dry) or fermented and unstable in storage (too wet).</p>
+        </div>
+        <div class="about-card">
+          <span class="about-index">Altitude</span>
+          <p>Higher, slower-maturing cherries tend to develop denser sugars and more complex acidity — one reason altitude is a recurring, if imperfect, predictor of cup quality.</p>
+        </div>
+      </div>
+
+      <div class="score-legend">
+        <div class="legend-row"><span class="legend-dot band-outstanding"></span><span class="legend-label">90.00 – 100</span><span class="legend-desc">Outstanding</span></div>
+        <div class="legend-row"><span class="legend-dot band-excellent"></span><span class="legend-label">85.00 – 89.99</span><span class="legend-desc">Excellent</span></div>
+        <div class="legend-row"><span class="legend-dot band-verygood"></span><span class="legend-label">80.00 – 84.99</span><span class="legend-desc">Very good</span></div>
+        <div class="legend-row"><span class="legend-dot band-below"></span><span class="legend-label">Below 80.00</span><span class="legend-desc">Not specialty grade</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONNECTION -->
+  <section class="connection-section" id="connection">
+    <div class="wrap connection-grid">
+      <div>
+        <div class="section-head">
+          <h2>Connect your API</h2>
+          <p>This page talks to the FastAPI service defined in your <code>main.py</code>, running the bundled model.</p>
+        </div>
+        <ol class="steps">
+          <li><span>1</span>Run the API locally: <code>uvicorn main:app --reload</code></li>
+          <li><span>2</span>Confirm it's live at the address below (default assumes port 8000)</li>
+          <li><span>3</span>Enable CORS on the FastAPI app so this page can reach it from a different origin</li>
+        </ol>
+      </div>
+      <div class="connection-card">
+        <label class="field">
+          <span>API base URL</span>
+          <input type="text" id="apiBase" value="http://127.0.0.1:8000">
+        </label>
+        <button class="btn btn-ghost btn-small" id="checkConn">Test connection</button>
+        <p class="conn-status" id="connStatus">Not checked yet.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-row">
+    <span>Cupping Lab — a predictive interface for the coffee cup-quality model.</span>
+    <span class="footer-note">Estimates are a modeling exercise, not a substitute for certified Q-grading.</span>
+  </div>
+</footer>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
