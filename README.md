@@ -64,6 +64,20 @@ factors associated with coffee quality.
 The project uses the <strong>Coffee Quality Institute Arabica Coffee Quality Database</strong>.
 </p>
 
+<p>
+<strong>📥 Dataset:</strong>
+<a href="https://www.kaggle.com/datasets/volpatto/coffee-quality-database-from-cqi">
+Coffee Quality Database from CQI — Kaggle
+</a>
+</p>
+
+<p>
+<strong>🔗 Original cleaned dataset source:</strong>
+<a href="https://github.com/jldbc/coffee-quality-database">
+Coffee Quality Database — GitHub
+</a>
+</p>
+
 <table>
   <tr>
     <th align="left">Item</th>
