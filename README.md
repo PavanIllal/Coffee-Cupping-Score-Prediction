@@ -9,7 +9,7 @@ processing, defect, moisture, altitude, and production-related features.
 </p>
 
 <p>
-<a https://coffee-cupping-score-prediction.onrender.com/app"><strong>🌐 Live Demo</strong></a>
+<a href="https://coffee-cupping-score-prediction.onrender.com/app"><strong>🌐 Live Demo</strong></a>
 &nbsp;&nbsp;•&nbsp;&nbsp;
 <a href="https://github.com/PavanIllal/Coffee-Cupping-Score-Prediction"><strong>💻 GitHub Repository</strong></a>
 &nbsp;&nbsp;•&nbsp;&nbsp;
@@ -537,7 +537,7 @@ The application is deployed on <strong>Render</strong> as a Python web service.
 <h3>Live Application</h3>
 
 <p>
-<a https://coffee-cupping-score-prediction.onrender.com/app">
+<a href="https://coffee-cupping-score-prediction.onrender.com/app">
 <strong>https://coffee-cupping-score-prediction.onrender.com</strong>
 </a>
 </p>
@@ -579,7 +579,7 @@ coffee cupping or sensory evaluation.
 <p>
 <a href="https://github.com/PavanIllal">GitHub Profile</a>
 &nbsp;&nbsp;•&nbsp;&nbsp;
-<a https://coffee-cupping-score-prediction.onrender.com/app">Project Repository</a>
+<a href="https://coffee-cupping-score-prediction.onrender.com/app">Project Repository</a>
 </p>
 
 <br>
