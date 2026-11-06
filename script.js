@@ -744,13 +744,33 @@ async function testConnection(){
 /* ============================================
    Init
    ============================================ */
+
 document.addEventListener('DOMContentLoaded', () => {
   populateSelects();
 
-  const savedApiBase = localStorage.getItem('cuppingLabApiBase');
-  if (savedApiBase) document.getElementById('apiBase').value = savedApiBase;
+  const apiBaseInput = document.getElementById('apiBase');
 
-  document.getElementById('apiBase').addEventListener('change', (e) => {
+  const isLocal = ['localhost', '127.0.0.1'].includes(
+    window.location.hostname
+  );
+
+  const defaultApiBase = isLocal
+    ? 'http://127.0.0.1:8000'
+    : window.location.origin;
+
+  const savedApiBase = localStorage.getItem('cuppingLabApiBase');
+
+  const savedIsLocal = savedApiBase &&
+    /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(savedApiBase);
+
+  if (savedApiBase && !(savedIsLocal && !isLocal)) {
+    apiBaseInput.value = savedApiBase;
+  } else {
+    apiBaseInput.value = defaultApiBase;
+    localStorage.setItem('cuppingLabApiBase', defaultApiBase);
+  }
+
+  apiBaseInput.addEventListener('change', (e) => {
     localStorage.setItem('cuppingLabApiBase', e.target.value.trim());
   });
 
@@ -758,3 +778,4 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('fillSample').addEventListener('click', fillSample);
   document.getElementById('checkConn').addEventListener('click', testConnection);
 });
+
