@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 
 # ============================================
@@ -23,6 +24,18 @@ print('Model and preprocessor loaded successfully!')
 # ============================================
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        'https://coffee-cupping-score-prediction.onrender.com',
+        'http://localhost:8000',
+        'http://127.0.0.1:8000'
+    ],
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*']
+)
 
 
 # ============================================
