@@ -574,7 +574,7 @@ coffee cupping or sensory evaluation.
 
 <h2>👨‍💻 Author</h2>
 
-<p><strong>Pavan Illal</strong></p>
+<p><strong>Pavan</strong></p>
 
 <p>
 <a href="https://github.com/PavanIllal">GitHub Profile</a>
